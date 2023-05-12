@@ -15,6 +15,14 @@ export const useHomePageStyles = makeStyles({
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
+    marginBottom: '20px',
+  },
+  searchInput: {
+    backgroundColor: theme.palette.primary.light,
+    borderRadius: '4px',
+    '& .MuiInputBase-input': {
+      padding: '10px',
+    },
   },
   cardsWrapper: {
     width: '100%',

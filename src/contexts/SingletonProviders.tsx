@@ -1,7 +1,14 @@
-import { FC, JSXElementConstructor, PropsWithChildren, ReactNode } from 'react';
+import {
+  FC,
+  JSXElementConstructor,
+  PropsWithChildren,
+  ReactNode
+} from 'react';
 import { ThemeProvider } from '@mui/material';
 import { ModalProvider } from 'react-modal-hook';
+
 import { theme } from '../styles/theme';
+import { ClientsProvider } from './ClientsContext';
 
 
 interface ComposeProps {
@@ -26,6 +33,7 @@ const SingletonProviders = ({ children }: PropsWithChildren<{}>) => {
     <ThemeProvider theme={theme}>
       <Compose
         components={[
+          ClientsProvider,
           ModalProvider,
         ]}
       >
