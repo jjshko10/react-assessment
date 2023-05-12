@@ -16,12 +16,18 @@ export const useHomePageStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: '20px',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      flexDirection: 'column',
+    },
   },
   searchInput: {
     backgroundColor: theme.palette.primary.light,
     borderRadius: '4px',
     '& .MuiInputBase-input': {
       padding: '10px',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      marginBottom: '10px',
     },
   },
   autocomplete: {
@@ -30,6 +36,9 @@ export const useHomePageStyles = makeStyles({
     width: '250px',
     '& .MuiInputBase-root': {
       padding: '2.5px 15px',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      width: '100%',
     },
   },
   adornmentText: {

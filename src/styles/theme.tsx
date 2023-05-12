@@ -53,6 +53,12 @@ export const theme = createTheme({
   },
 });
 
+theme.typography.h2 = {
+  fontWeight: 700,
+  fontSize: '32px',
+  color: blackColor,
+};
+
 theme.typography.h6 = {
   fontWeight: 600,
   fontSize: '18px',

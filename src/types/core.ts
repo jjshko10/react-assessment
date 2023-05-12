@@ -5,3 +5,8 @@ export interface IClient {
   phone: string;
   id: string;
 }
+
+export interface ISignInForm {
+  login: string;
+  password: string;
+}

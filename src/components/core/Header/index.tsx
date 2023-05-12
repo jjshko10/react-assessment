@@ -4,13 +4,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useMediaQuery } from '@mui/material';
+import { useModal } from 'react-modal-hook';
 
 import { theme } from 'styles/theme';
 import { useHeaderStyles } from './Header.styles';
+import { SignInModal } from 'components/modals/SignInModal';
 
 export const Header: FC = () => {
   const classes = useHeaderStyles();
   const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
+  const [showSignInModal, hideSignInModal] = useModal(() => (
+    <SignInModal onClose={hideSignInModal} />
+  ));
 
   return (
     <AppBar
@@ -28,7 +33,11 @@ export const Header: FC = () => {
         <Typography component='span' className={classes.headerInfoText}>
           Clients
         </Typography>
-        <Button variant='contained' className={classes.headerButton}>
+        <Button
+          variant='contained'
+          className={classes.headerButton}
+          onClick={showSignInModal}
+        >
           <Box
             component='img'
             src='/sign-in.svg'

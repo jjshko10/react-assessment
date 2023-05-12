@@ -19,7 +19,7 @@ export const Search: FC = () => {
           <img src='./search.svg' alt='search'/>
         ),
       }}
-      onChange={(e) => searchClients(e.target.value)}
+      onChange={(event) => searchClients(event.target.value)}
     />
   );
 };
