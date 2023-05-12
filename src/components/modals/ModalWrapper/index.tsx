@@ -1,7 +1,8 @@
 import { FC } from 'react';
 
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Dialog, Typography, useMediaQuery } from '@mui/material';
 import { useModalStyles } from '../Modals.styles';
+import { theme } from 'styles/theme';
 
 interface ModalWrapperProps {
   children: JSX.Element;
@@ -10,9 +11,10 @@ interface ModalWrapperProps {
 
 export const ModalWrapper: FC<ModalWrapperProps> = ({ children, onClose }) => {
   const classes = useModalStyles();
+  const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
 
   return (
-    <Modal open onClose={onClose}>
+    <Dialog open fullScreen={isMobile} onClose={onClose}>
       <Box className={classes.modalContentWrapper}>
         <Typography
           component='span'
@@ -21,6 +23,6 @@ export const ModalWrapper: FC<ModalWrapperProps> = ({ children, onClose }) => {
         />
         {children}
       </Box>
-    </Modal>
+    </Dialog>
   );
 };

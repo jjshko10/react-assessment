@@ -7,7 +7,6 @@ import { Search } from 'components/core/Search';
 import { Sort } from 'components/core/Sort';
 import { useClientsContext } from 'contexts/ClientsContext';
 
-
 export const HomePage: FC = () => {
   const classes = useHomePageStyles();
   const { getClients, clients } = useClientsContext();

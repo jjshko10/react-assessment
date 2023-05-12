@@ -1,7 +1,9 @@
 import { Route, Routes } from 'react-router-dom';
 import createCache, { EmotionCache } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
+import { ToastContainer } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import { Header } from './components/core/Header';
 import SingletonProviders from './contexts/SingletonProviders';
@@ -19,7 +21,8 @@ function App() {
   return (
     <CacheProvider value={muiCache ?? createMuiCache()}>
       <SingletonProviders>
-        <div className="App">
+        <ToastContainer position='top-center' theme='colored' />
+        <div className='App'>
           <Header />
           <Routes>
             <Route path='/' element={<HomePage />} />

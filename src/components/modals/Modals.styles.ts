@@ -14,6 +14,12 @@ export const useModalStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      width: '100%',
+      padding: '0 20px',
+      height: '100vh',
+      justifyContent: 'center',
+    },
   },
   closeIcon: {
     position: 'absolute',
@@ -34,6 +40,9 @@ export const useModalStyles = makeStyles({
     },
     '&:hover': {
       cursor: 'pointer',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      top: 20,
     },
   },
 });

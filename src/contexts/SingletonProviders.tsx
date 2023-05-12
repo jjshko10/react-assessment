@@ -7,8 +7,9 @@ import {
 import { ThemeProvider } from '@mui/material';
 import { ModalProvider } from 'react-modal-hook';
 
-import { theme } from '../styles/theme';
+import { theme } from 'styles/theme';
 import { ClientsProvider } from './ClientsContext';
+import { AuthProvider } from './AuthContext';
 
 
 interface ComposeProps {
@@ -33,6 +34,7 @@ const SingletonProviders = ({ children }: PropsWithChildren<{}>) => {
     <ThemeProvider theme={theme}>
       <Compose
         components={[
+          AuthProvider,
           ClientsProvider,
           ModalProvider,
         ]}

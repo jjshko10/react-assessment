@@ -34,6 +34,30 @@ export const useHeaderStyles = makeStyles({
     fontSize: '20px',
     color: theme.palette.textColor.dark,
   },
+  userInfoWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  username: {
+    margin: '0 10px',
+    [theme.breakpoints.between('xs', 'sm')]: {
+      display: 'none',
+    },
+  },
+  arrowDown: {
+    border: `solid ${theme.palette.textColor.dark}`,
+    borderWidth: '0 2px 2px 0',
+    display: 'inline-block',
+    padding: '3px',
+    transform: 'rotate(45deg)',
+    '-webkit-transform': 'rotate(45deg)',
+    '&:hover': {
+      cursor: 'pointer',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      marginLeft: '10px',
+    },
+  },
   headerButton: {
     [theme.breakpoints.between('xs', 'sm')]: {
       padding: '10px 0',

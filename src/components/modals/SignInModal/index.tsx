@@ -6,14 +6,20 @@ import { ModalWrapper } from '../ModalWrapper';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { signInValidation } from 'helpers/signInValidation';
 import { ISignInForm } from 'types/core';
+import { useAuthContext } from 'contexts/AuthContext';
 
-interface CustomModalProps {
+interface SignInModalProps {
   onClose: () => void;
 }
 
-export const SignInModal: FC<CustomModalProps> = ({ onClose }) => {
+export const SignInModal: FC<SignInModalProps> = ({ onClose }) => {
   const classes = useSignInModalStyles();
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+  const { login } = useAuthContext();
+
+  const signInHandler = (user: ISignInForm) => {
+    login(user, onClose);
+  };
 
   return (
     <ModalWrapper onClose={onClose}>
@@ -25,7 +31,7 @@ export const SignInModal: FC<CustomModalProps> = ({ onClose }) => {
           enableReinitialize
           initialValues={{ login: '', password: '' }}
           validationSchema={signInValidation}
-          onSubmit={() => console.log('submitted')}
+          onSubmit={signInHandler}
         >
           {({ values, handleSubmit, setFieldValue, touched, errors }) => (
             <form className={classes.form} onSubmit={handleSubmit}>
