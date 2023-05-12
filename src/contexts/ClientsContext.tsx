@@ -13,6 +13,7 @@ interface IClientsContext {
   clients: IClient[];
   getClients (): Promise<void>;
   searchClients (value: string): void;
+  sortClients (value: string | null): void;
 }
 
 const ClientsContext = createContext<IClientsContext | undefined>(undefined);
@@ -39,10 +40,28 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     setClients(filteredClients);
   };
 
+  const sortClients = (value: string | null) => {
+    if (!value) {
+      return;
+    }
+
+    switch (value.toLowerCase()) {
+      case 'name':
+        const sortedClients = clients.sort((a, b) =>
+          a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+        );
+        setClients(sortedClients);
+        break;
+      default:
+        break;
+    }
+  };
+
   const value: IClientsContext = {
     clients,
     getClients,
     searchClients,
+    sortClients,
   };
 
   return <ClientsContext.Provider value={value}>{children}</ClientsContext.Provider>;

@@ -24,6 +24,20 @@ export const useHomePageStyles = makeStyles({
       padding: '10px',
     },
   },
+  autocomplete: {
+    backgroundColor: theme.palette.primary.light,
+    borderRadius: '4px',
+    width: '250px',
+    '& .MuiInputBase-root': {
+      padding: '2.5px 15px',
+    },
+  },
+  adornmentText: {
+    color: theme.palette.textColor.light,
+    fontWeight: 400,
+    fontSize: '16px',
+    marginLeft: '10px',
+  },
   cardsWrapper: {
     width: '100%',
     display: 'grid',

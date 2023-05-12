@@ -18,6 +18,7 @@ export const whiteColor = '#FFFFFF';
 export const blackColor = '#000000';
 export const lightBlackColor = '#313131';
 export const lightGreyColor = '#E5E5E5';
+export const darkGreyColor = '#87898F';
 export const errorColor = '#FF6C2D';
 
 export const theme = createTheme({
@@ -40,7 +41,8 @@ export const theme = createTheme({
     },
     textColor: {
       main: blackColor,
-      light: lightBlackColor,
+      light: darkGreyColor,
+      dark: lightBlackColor,
     },
     error: {
       main: errorColor,
