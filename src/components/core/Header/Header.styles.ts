@@ -32,7 +32,7 @@ export const useHeaderStyles = makeStyles({
   },
   headerInfoText: {
     fontSize: '20px',
-    color: '#313131',
+    color: theme.palette.textColor.light,
   },
   headerButton: {
     [theme.breakpoints.between('xs', 'sm')]: {

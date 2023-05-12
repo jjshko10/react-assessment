@@ -13,7 +13,12 @@ export const Header: FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
 
   return (
-    <AppBar color='inherit' className={classes.header} sx={{ flexDirection: 'row' }}>
+    <AppBar
+      position='static'
+      color='inherit'
+      className={classes.header}
+      sx={{ flexDirection: 'row' }}
+    >
       <Box className={classes.logo}>
         <Typography component='span' className={classes.logoText}>
           {isMobile ? 'RB' : 'RichBrains'}
@@ -35,7 +40,6 @@ export const Header: FC = () => {
           {isMobile || 'Sign in'}
         </Button>
       </Box>
-      
     </AppBar>
   );
 };

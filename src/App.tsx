@@ -1,10 +1,11 @@
-import { Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import createCache, { EmotionCache } from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
 
 import './App.css';
 import { Header } from './components/core/Header';
 import SingletonProviders from './contexts/SingletonProviders';
+import { HomePage } from 'pages/HomePage';
 
 let muiCache: EmotionCache | undefined = undefined;
 export const createMuiCache = () => (
@@ -21,7 +22,7 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-
+            <Route path='/' element={<HomePage />} />
           </Routes>
         </div>
       </SingletonProviders>
