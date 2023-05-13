@@ -37,13 +37,4 @@ export const useSignInModalStyles = makeStyles({
       cursor: 'pointer',
     }
   },
-  close: {
-    fontSize: '16px',
-    color: theme.palette.textColor.dark,
-    width: '45px',
-    margin: '0 auto',
-    '&:hover': {
-      cursor: 'pointer',
-    }
-  },
 });

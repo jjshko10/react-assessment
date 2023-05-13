@@ -1,18 +1,15 @@
 import { FC, useState } from 'react';
 import { Formik } from 'formik';
+import { Box, Button, TextField, Typography } from '@mui/material';
 
 import { useSignInModalStyles } from './SignInModal.styles';
 import { ModalWrapper } from '../ModalWrapper';
-import { Box, Button, TextField, Typography } from '@mui/material';
 import { signInValidation } from 'helpers/signInValidation';
-import { ISignInForm } from 'types/core';
+import { IModalProps, ISignInForm } from 'types/core';
 import { useAuthContext } from 'contexts/AuthContext';
+import { CloseButton } from 'components/core/CloseButton';
 
-interface SignInModalProps {
-  onClose: () => void;
-}
-
-export const SignInModal: FC<SignInModalProps> = ({ onClose }) => {
+export const SignInModal: FC<IModalProps> = ({ onClose }) => {
   const classes = useSignInModalStyles();
   const [isVisiblePassword, setIsVisiblePassword] = useState(false);
   const { login } = useAuthContext();
@@ -67,9 +64,7 @@ export const SignInModal: FC<SignInModalProps> = ({ onClose }) => {
               <Button variant='contained' type='submit' sx={{ mb: 2.5 }}>
                 Sign in
               </Button>
-              <Typography component='span' className={classes.close} onClick={onClose}>
-                Close
-              </Typography>
+              <CloseButton text='Close' onClose={onClose} />
             </form>
           )}
         </Formik>

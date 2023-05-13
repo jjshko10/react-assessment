@@ -12,13 +12,4 @@ export const useSignOutModalStyles = makeStyles({
     width: '100%',
     marginBottom: '20px',
   },
-  close: {
-    fontSize: '16px',
-    color: theme.palette.textColor.dark,
-    width: '75px',
-    margin: '0 auto',
-    '&:hover': {
-      cursor: 'pointer',
-    }
-  },
 });

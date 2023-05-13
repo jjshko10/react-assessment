@@ -7,13 +7,14 @@ import {
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-import { IClient } from 'types/core';
+import { IClient, INewClient } from 'types/core';
 
 interface IClientsContext {
   clients: IClient[];
   getClients (): Promise<void>;
   searchClients (value: string): void;
   sortClients (value: string | null): void;
+  addNewClient ({ name, surname, age, phone }: INewClient): Promise<void>;
 }
 
 const ClientsContext = createContext<IClientsContext | undefined>(undefined);
@@ -57,11 +58,22 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     }
   };
 
+  const addNewClient = async ({ name, surname, age, phone }: INewClient) => {
+    try {
+      await axios.post('http://localhost:3333/clients/add', {
+        name, surname, age, phone
+      });
+    } catch (error) {
+      toast.error('Something went wrong!');
+    }
+  };
+
   const value: IClientsContext = {
     clients,
     getClients,
     searchClients,
     sortClients,
+    addNewClient,
   };
 
   return <ClientsContext.Provider value={value}>{children}</ClientsContext.Provider>;

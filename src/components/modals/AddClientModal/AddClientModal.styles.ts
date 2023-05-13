@@ -26,10 +26,6 @@ export const useAddClientModalStyles = makeStyles({
       width: '100%',
     },
   },
-  avatar: {
-    width: '200px',
-    height: '200px',
-  },
   nameInputsWrapper: {
     display: 'flex',
     [theme.breakpoints.between('xs', 'sm')]: {
@@ -82,14 +78,6 @@ export const useAddClientModalStyles = makeStyles({
     marginRight: '35px',
     [theme.breakpoints.between('xs', 'sm')]: {
       width: '125px',
-    },
-  },
-  close: {
-    [theme.breakpoints.between('xs', 'sm')]: {
-      marginRight: '30px',
-    },
-    '&:hover': {
-      cursor: 'pointer',
     },
   },
 });

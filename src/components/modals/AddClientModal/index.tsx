@@ -1,26 +1,32 @@
 import { FC } from 'react';
 import { Formik } from 'formik';
-import { Avatar, Box, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, FormHelperText, TextField, Typography } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import PhoneInput from 'react-phone-number-input';
 
 import 'react-phone-number-input/style.css';
-import { useAddClientModalStyles } from './AddClientModal';
+import { useAddClientModalStyles } from './AddClientModal.styles';
 import { ModalWrapper } from '../ModalWrapper';
-import { IAddClientForm } from 'types/core';
+import { IAddClientForm, IModalProps } from 'types/core';
+import { addClientValidation } from 'helpers/addClientValidation';
+import { getYearsFromDate } from 'helpers/getYearsFromDate';
+import { useClientsContext } from 'contexts/ClientsContext';
+import { CloseButton } from 'components/core/CloseButton';
+import { Avatar } from 'components/core/Avatar';
 
-interface CustomModalProps {
-  onClose: () => void;
-  isBigModal?: boolean;
-}
-
-export const AddClientModal: FC<CustomModalProps> = ({ onClose, isBigModal }) => {
+export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
   const classes = useAddClientModalStyles();
+  const { addNewClient } = useClientsContext();
 
   const handleFormSubmit = (values: IAddClientForm) => {
-    console.log(values);
+    addNewClient({
+      name: values.name,
+      surname: values.surname,
+      age: getYearsFromDate(values.date),
+      phone: values.phone,
+    });
   };
   
   return (
@@ -30,19 +36,19 @@ export const AddClientModal: FC<CustomModalProps> = ({ onClose, isBigModal }) =>
           New Client
         </Typography>
         <Box className={classes.modalContentWrapper}>
-          <Avatar src='./avatar.svg' alt='ava' className={classes.avatar} />
+          <Avatar height='200px' width='200px' />
           <Formik<IAddClientForm>
             enableReinitialize
             initialValues={{
               name: '',
               surname: '',
-              date: '',
+              date: 0,
               phone: '',
             }}
-            /* validationSchema={signInValidation} */
+            validationSchema={addClientValidation}
             onSubmit={handleFormSubmit}
           >
-            {({ values, handleSubmit, setFieldValue, touched, errors }) => (
+            {({ values, handleSubmit, setFieldValue, touched, errors, submitCount }) => (
               <form onSubmit={handleSubmit} className={classes.form}>
                 <Box className={classes.nameInputsWrapper}>
                   <Box className={classes.textInputWrapper}>
@@ -75,8 +81,13 @@ export const AddClientModal: FC<CustomModalProps> = ({ onClose, isBigModal }) =>
                     <DatePicker
                       disableFuture
                       className={classes.datePicker}
-                      onChange={(value) => setFieldValue('date', value)}
+                      onChange={(event) => setFieldValue('date', event?.valueOf(), true)}
                     />
+                    {!!submitCount && !values.date && (
+                      <FormHelperText error sx={{ marginLeft: '14px' }}>
+                        Date is required
+                      </FormHelperText>
+                    )}
                   </LocalizationProvider>
                 </Box>
                 <Box className={classes.textInputWrapper}>
@@ -87,6 +98,11 @@ export const AddClientModal: FC<CustomModalProps> = ({ onClose, isBigModal }) =>
                     onChange={(value) => setFieldValue('phone', value)}
                     className={classes.phoneInput}
                   />
+                  {!!submitCount && !values.phone && (
+                    <FormHelperText error sx={{ marginLeft: '55px' }}>
+                      Telephone is required
+                    </FormHelperText>
+                  )}
                 </Box>
                 <Box className={classes.buttonsWrapper}>
                   <Button
@@ -96,13 +112,7 @@ export const AddClientModal: FC<CustomModalProps> = ({ onClose, isBigModal }) =>
                   >
                     Save
                   </Button>
-                  <Typography
-                    component='span'
-                    onClick={onClose}
-                    className={classes.close}
-                  >
-                    Cancel
-                  </Typography>
+                  <CloseButton text='Cancel' onClose={onClose} mr='30px' />
                 </Box>
               </form>
             )}

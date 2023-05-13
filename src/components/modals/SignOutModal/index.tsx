@@ -1,15 +1,13 @@
 import { FC } from 'react';
 import { Button, Typography } from '@mui/material';
 
-import { useSignOutModalStyles } from './SignOut.styles';
+import { useSignOutModalStyles } from './SignOutModal.styles';
 import { ModalWrapper } from '../ModalWrapper';
 import { useAuthContext } from 'contexts/AuthContext';
+import { IModalProps } from 'types/core';
+import { CloseButton } from 'components/core/CloseButton';
 
-interface CustomModalProps {
-  onClose: () => void;
-}
-
-export const SignOutModal: FC<CustomModalProps> = ({ onClose }) => {
+export const SignOutModal: FC<IModalProps> = ({ onClose }) => {
   const classes = useSignOutModalStyles();
   const { logout } = useAuthContext();
   
@@ -32,13 +30,7 @@ export const SignOutModal: FC<CustomModalProps> = ({ onClose }) => {
         >
           Yes, sign out
         </Button>
-        <Typography
-          component='span'
-          className={classes.close}
-          onClick={onClose}
-        >
-          No, close
-        </Typography>
+        <CloseButton text='No, close' onClose={onClose} width='75px' />
       </>
     </ModalWrapper>
   );

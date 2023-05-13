@@ -12,6 +12,7 @@ export const useAddButtonStyles = makeStyles({
       position: 'fixed',
       right: 10,
       bottom: 20,
+      zIndex: 1,
     },
     [theme.breakpoints.between('lg', 'xl')]: {
       right: 80,

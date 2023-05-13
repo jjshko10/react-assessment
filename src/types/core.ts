@@ -14,6 +14,22 @@ export interface ISignInForm {
 export interface IAddClientForm {
   name: string;
   surname: string;
-  date: string;
+  date: number;
   phone: string;
+}
+
+export interface INewClient {
+  name: string;
+  surname: string;
+  age: string;
+  phone: string;
+}
+
+export interface IModalProps {
+  onClose: () => void;
+  isBigModal?: boolean;
+}
+
+export interface IClientModalProps extends IModalProps {
+  client: IClient;
 }
