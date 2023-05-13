@@ -8,13 +8,16 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { IClient, INewClient } from 'types/core';
+import { useAuthContext } from './AuthContext';
 
 interface IClientsContext {
   clients: IClient[];
   getClients (): Promise<void>;
   searchClients (value: string): void;
   sortClients (value: string | null): void;
-  addNewClient ({ name, surname, age, phone }: INewClient): Promise<void>;
+  addNewClient ({ name, surname, age, phone }: INewClient, onClose: () => void): Promise<void>;
+  deleteClient (id: string, onClose: () => void): Promise<void>;
+  editClient ({ name, surname, age, phone, id }: IClient, onClose: () => void): Promise<void>;
 }
 
 const ClientsContext = createContext<IClientsContext | undefined>(undefined);
@@ -22,6 +25,11 @@ const ClientsContext = createContext<IClientsContext | undefined>(undefined);
 export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
   const [allClients, setAllClients] = useState<IClient[]>([])
   const [clients, setClients] = useState<IClient[]>([]);
+  const { token } = useAuthContext();
+  
+  const config = {
+    headers: { Authorization: token }
+  };
 
   const getClients = async () => {
     try {
@@ -58,13 +66,65 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     }
   };
 
-  const addNewClient = async ({ name, surname, age, phone }: INewClient) => {
+  const addNewClient = async (
+    { name, surname, age, phone }: INewClient,
+    onClose: () => void
+  ) => {
+    console.log(token);
+    
+    const client = {
+      name: name,
+      surname: surname,
+      age: age,
+      phone: phone,
+    }
     try {
-      await axios.post('http://localhost:3333/clients/add', {
-        name, surname, age, phone
-      });
+      await axios.post('http://localhost:3333/clients/add', client, config);
+      toast.success('New client was added successfully');
+      getClients();
     } catch (error) {
       toast.error('Something went wrong!');
+    } finally {
+      onClose();
+    }
+  };
+
+  const deleteClient = async (
+    id: string,
+    onClose: () => void
+  ) => {
+    console.log(token);
+    try {
+      await axios.delete(`http://localhost:3333/clients/remove?id=${id}`, config);
+      toast.success('Client was deleted successfully');
+      getClients();
+    } catch (error) {
+      toast.error('Something went wrong!');
+    } finally {
+      onClose();
+    }
+  };
+
+  const editClient = async (
+    { name, surname, age, phone, id }: IClient,
+    onClose: () => void
+  ) => {
+    console.log(token);
+    const client = {
+      name: name,
+      surname: surname,
+      age: age,
+      phone: phone,
+      id: id,
+    }
+    try {
+      await axios.put(`http://localhost:3333/clients/edit`, client, config);
+      toast.success('Client was edited successfully');
+      getClients();
+    } catch (error) {
+      toast.error('Something went wrong!');
+    } finally {
+      onClose();
     }
   };
 
@@ -74,6 +134,8 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     searchClients,
     sortClients,
     addNewClient,
+    deleteClient,
+    editClient,
   };
 
   return <ClientsContext.Provider value={value}>{children}</ClientsContext.Provider>;

@@ -15,16 +15,20 @@ interface IAuthContext {
   login (user: ISignInForm, onClose: () => void): Promise<void>;
   logout: (onClose: () => void) => void;
   username: string | undefined;
+  token: string | null;
 }
 
 const AuthContext = createContext<IAuthContext | undefined>(undefined);
 
 export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
   const [username, setUsername] = useState<string | undefined>(undefined);
+  const [token, setToken] = useState<string | null>(null);
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     let login = localStorage.getItem('login');
+    let tokenValue = localStorage.getItem('token');
+    setToken(tokenValue);
 
     if (!!login) {
       setUsername(login);
@@ -39,7 +43,9 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     try {
       const response = await axios.post('http://localhost:3333/user/login', user);
       localStorage.setItem('login', response.data.login);
+      localStorage.setItem('token', response.data.token);
       setUsername(response.data.login);
+      setToken(response.data.token);
       setIsLogged(true);
       onClose();
     } catch (error) {
@@ -49,7 +55,9 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const logout = (onClose: () => void) => {
     localStorage.removeItem('login');
+    localStorage.removeItem('token');
     setUsername(undefined);
+    setToken(null);
     setIsLogged(false);
     onClose();
   };
@@ -59,6 +67,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
     login,
     logout,
     username,
+    token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

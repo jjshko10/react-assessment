@@ -1,31 +1,31 @@
 import { FC } from 'react';
 import { Formik } from 'formik';
 import { Box, Button, FormHelperText, TextField, Typography } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import PhoneInput from 'react-phone-number-input';
 
 import 'react-phone-number-input/style.css';
-import { useAddClientModalStyles } from './AddClientModal.styles';
+import { useAddClientModalStyles } from '../AddClientModal/AddClientModal.styles';
 import { ModalWrapper } from '../ModalWrapper';
-import { IAddClientForm, IModalProps } from 'types/core';
+import { IClientModalProps, IEditClientForm } from 'types/core';
 import { addClientValidation } from 'helpers/addClientValidation';
-import { getYearsFromDate } from 'helpers/getYearsFromDate';
 import { useClientsContext } from 'contexts/ClientsContext';
 import { CloseButton } from 'components/core/CloseButton';
 import { Avatar } from 'components/core/Avatar';
+import { DeleteClientButton } from 'components/core/DeleteClientButton';
 
-export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
+export const EditClientModal: FC<IClientModalProps> = ({ client, onClose, isBigModal }) => {
   const classes = useAddClientModalStyles();
-  const { addNewClient } = useClientsContext();
+  const { editClient } = useClientsContext();
 
-  const handleFormSubmit = (values: IAddClientForm) => {
-    addNewClient({
+  const handleFormSubmit = (values: IEditClientForm) => {
+    console.log('submit');
+    
+    editClient({
       name: values.name,
       surname: values.surname,
-      age: getYearsFromDate(values.date),
+      age: values.age,
       phone: values.phone,
+      id: client.id,
     }, onClose);
   };
   
@@ -33,19 +33,19 @@ export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
     <ModalWrapper onClose={onClose} isBigModal={isBigModal}>
       <Box className={classes.modalWrapper}>
         <Typography variant='h2' className={classes.title}>
-          New Client
+          Edit Client
         </Typography>
         <Box className={classes.modalContentWrapper}>
           <Avatar height='200px' width='200px' />
-          <Formik<IAddClientForm>
+          <Formik<IEditClientForm>
             enableReinitialize
             initialValues={{
-              name: '',
-              surname: '',
-              date: 0,
-              phone: '',
+              name: client.name,
+              surname: client.surname,
+              age: client.age,
+              phone: client.phone,
             }}
-            validationSchema={addClientValidation}
+            /* validationSchema={addClientValidation} */
             onSubmit={handleFormSubmit}
           >
             {({ values, handleSubmit, setFieldValue, touched, errors, submitCount }) => (
@@ -76,25 +76,21 @@ export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
                   </Box>
                 </Box>
                 <Box className={classes.textInputWrapper}>
-                  <Typography component='span' className={classes.label}>Date of birth</Typography>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      disableFuture
-                      className={classes.datePicker}
-                      onChange={(event) => setFieldValue('date', event?.valueOf(), true)}
+                  <Typography component='span' className={classes.label}>Age</Typography>
+                  <TextField
+                      type='text'
+                      className={classes.textInput}
+                      value={values.age}
+                      onChange={(event) => {setFieldValue('age', event.target.value)}}
+                      error={touched.age && !!errors.age}
+                      helperText={touched.age && errors.age}
                     />
-                    {!!submitCount && !values.date && (
-                      <FormHelperText error sx={{ marginLeft: '14px' }}>
-                        Date is required
-                      </FormHelperText>
-                    )}
-                  </LocalizationProvider>
                 </Box>
                 <Box className={classes.textInputWrapper}>
                   <Typography component='span' className={classes.label}>Telephone</Typography>
                   <PhoneInput
                     placeholder='Enter phone number'
-                    value={values.phone}
+                    value={client.phone}
                     onChange={(value) => setFieldValue('phone', value)}
                     className={classes.phoneInput}
                   />
@@ -104,7 +100,11 @@ export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
                     </FormHelperText>
                   )}
                 </Box>
+                <Box className={classes.deleteButtonWrapper}>
+                  <DeleteClientButton client={client} />
+                </Box>
                 <Box className={classes.buttonsWrapper}>
+                  
                   <Button
                     variant='contained'
                     type='submit'

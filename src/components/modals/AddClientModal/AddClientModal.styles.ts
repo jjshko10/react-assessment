@@ -62,6 +62,15 @@ export const useAddClientModalStyles = makeStyles({
       fontSize: '14px',
     },
   },
+  deleteButtonWrapper: {
+    position: 'absolute',
+    right: 70,
+    [theme.breakpoints.between('xs', 'sm')]: {
+      position: 'initial',
+      right: 'initial',
+      margin: '30px 0',
+    },
+  },
   buttonsWrapper: {
     position: 'absolute',
     left: 70,

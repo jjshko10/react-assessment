@@ -15,9 +15,12 @@ export const useClientModalStyles = makeStyles({
   },
   buttonWrapper: {
     display: 'flex',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     '&:hover': {
       cursor: 'pointer',
+    },
+    [theme.breakpoints.between('xs', 'sm')]: {
+      marginBottom: '20px',
     },
   },
   editDeleteText: {

@@ -18,6 +18,13 @@ export interface IAddClientForm {
   phone: string;
 }
 
+export interface IEditClientForm {
+  name: string;
+  surname: string;
+  age: string;
+  phone: string;
+}
+
 export interface INewClient {
   name: string;
   surname: string;
@@ -32,4 +39,8 @@ export interface IModalProps {
 
 export interface IClientModalProps extends IModalProps {
   client: IClient;
+}
+
+export interface TypedJwtResponse {
+  login?: string;
 }
