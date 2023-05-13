@@ -4,7 +4,6 @@ import { theme } from 'styles/theme';
 
 export const useModalStyles = makeStyles({
   modalContentWrapper: {
-    width: '450px',
     backgroundColor: theme.palette.primary.light,
     position: 'fixed',
     top: '50%',

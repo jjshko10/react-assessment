@@ -10,3 +10,10 @@ export interface ISignInForm {
   login: string;
   password: string;
 }
+
+export interface IAddClientForm {
+  name: string;
+  surname: string;
+  date: string;
+  phone: string;
+}

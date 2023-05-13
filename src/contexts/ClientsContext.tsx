@@ -28,7 +28,7 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
       setClients(response.data.clients);
       setAllClients(response.data.clients);
     } catch (error) {
-      toast.error('Request failed');
+      toast.error('Something went wrong!');
     }
   };
 

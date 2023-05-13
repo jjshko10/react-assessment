@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }: PropsWithChildren<{}>) => {
       setIsLogged(true);
       onClose();
     } catch (error) {
-      toast.error('Login Failed');
+      toast.error('Login failed');
     }
   };
 
