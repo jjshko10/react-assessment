@@ -7,23 +7,21 @@ import 'react-phone-number-input/style.css';
 import { useAddClientModalStyles } from '../AddClientModal/AddClientModal.styles';
 import { ModalWrapper } from '../ModalWrapper';
 import { IClientModalProps, IEditClientForm } from 'types/core';
-import { addClientValidation } from 'helpers/addClientValidation';
 import { useClientsContext } from 'contexts/ClientsContext';
 import { CloseButton } from 'components/core/CloseButton';
 import { Avatar } from 'components/core/Avatar';
 import { DeleteClientButton } from 'components/core/DeleteClientButton';
+import { editClientValidation } from 'helpers/editClientValidation';
 
 export const EditClientModal: FC<IClientModalProps> = ({ client, onClose, isBigModal }) => {
   const classes = useAddClientModalStyles();
   const { editClient } = useClientsContext();
 
   const handleFormSubmit = (values: IEditClientForm) => {
-    console.log('submit');
-    
     editClient({
-      name: values.name,
-      surname: values.surname,
-      age: values.age,
+      name: values.name.trim(),
+      surname: values.surname.trim(),
+      age: values.age.trim(),
       phone: values.phone,
       id: client.id,
     }, onClose);
@@ -45,7 +43,7 @@ export const EditClientModal: FC<IClientModalProps> = ({ client, onClose, isBigM
               age: client.age,
               phone: client.phone,
             }}
-            /* validationSchema={addClientValidation} */
+            validationSchema={editClientValidation}
             onSubmit={handleFormSubmit}
           >
             {({ values, handleSubmit, setFieldValue, touched, errors, submitCount }) => (

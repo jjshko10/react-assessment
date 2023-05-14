@@ -22,8 +22,8 @@ export const AddClientModal: FC<IModalProps> = ({ onClose, isBigModal }) => {
 
   const handleFormSubmit = (values: IAddClientForm) => {
     addNewClient({
-      name: values.name,
-      surname: values.surname,
+      name: values.name.trim(),
+      surname: values.surname.trim(),
       age: getYearsFromDate(values.date),
       phone: values.phone,
     }, onClose);

@@ -12,7 +12,7 @@ export const Sort: FC = () => {
   return (
     <Autocomplete
       disablePortal
-      id="sort-by-autocomplete"
+      id='sort-by-autocomplete'
       options={sortOptions}
       renderInput={(params) =>
         <TextField
@@ -21,7 +21,7 @@ export const Sort: FC = () => {
             ...params.InputProps,
             startAdornment: (
               <>
-                <img src='./sort.svg' alt='sort'/>
+                <img src='./sort.svg' alt='sort' />
                 <span className={classes.adornmentText}>Sort by:</span>
               </>
             ),

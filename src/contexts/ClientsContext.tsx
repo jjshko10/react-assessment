@@ -18,6 +18,7 @@ interface IClientsContext {
   addNewClient ({ name, surname, age, phone }: INewClient, onClose: () => void): Promise<void>;
   deleteClient (id: string, onClose: () => void): Promise<void>;
   editClient ({ name, surname, age, phone, id }: IClient, onClose: () => void): Promise<void>;
+  sortFlag: boolean;
 }
 
 const ClientsContext = createContext<IClientsContext | undefined>(undefined);
@@ -25,6 +26,7 @@ const ClientsContext = createContext<IClientsContext | undefined>(undefined);
 export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
   const [allClients, setAllClients] = useState<IClient[]>([])
   const [clients, setClients] = useState<IClient[]>([]);
+  const [sortFlag, setSortFlag] = useState<boolean>(false);
   const { token } = useAuthContext();
   
   const config = {
@@ -56,10 +58,14 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
 
     switch (value.toLowerCase()) {
       case 'name':
-        const sortedClients = clients.sort((a, b) =>
+        setClients(clients.sort((a, b) =>
           a.name.toLowerCase().localeCompare(b.name.toLowerCase())
-        );
-        setClients(sortedClients);
+        ));
+        setSortFlag(!sortFlag);
+        break;
+      case 'age': // create valid age values and it will work
+        setClients(clients.sort((a, b) => Number(a.age) - Number(b.age)));
+        setSortFlag(!sortFlag);
         break;
       default:
         break;
@@ -70,8 +76,6 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     { name, surname, age, phone }: INewClient,
     onClose: () => void
   ) => {
-    console.log(token);
-    
     const client = {
       name: name,
       surname: surname,
@@ -93,7 +97,6 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     id: string,
     onClose: () => void
   ) => {
-    console.log(token);
     try {
       await axios.delete(`http://localhost:3333/clients/remove?id=${id}`, config);
       toast.success('Client was deleted successfully');
@@ -109,7 +112,6 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     { name, surname, age, phone, id }: IClient,
     onClose: () => void
   ) => {
-    console.log(token);
     const client = {
       name: name,
       surname: surname,
@@ -136,6 +138,7 @@ export const ClientsProvider = ({ children }: PropsWithChildren<{}>) => {
     addNewClient,
     deleteClient,
     editClient,
+    sortFlag,
   };
 
   return <ClientsContext.Provider value={value}>{children}</ClientsContext.Provider>;

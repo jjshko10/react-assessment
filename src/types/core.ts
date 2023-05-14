@@ -40,7 +40,3 @@ export interface IModalProps {
 export interface IClientModalProps extends IModalProps {
   client: IClient;
 }
-
-export interface TypedJwtResponse {
-  login?: string;
-}
